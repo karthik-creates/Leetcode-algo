@@ -1,8 +1,11 @@
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.function.IntFunction;
 import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -93,5 +96,37 @@ class Warmup {
     public void testIsAnagram() {
         String s = "anagram", t = "nagaram";
         Assertions.assertTrue(isAnagram(s, t));
+    }
+
+    public int fib(int n) {
+        return Stream.iterate(new int[] { 0, 1 }, arr -> new int[] { arr[1], arr[0] + arr[1] })
+                .skip(n).map(arr -> arr[0]).findFirst().get();
+    }
+
+    @Test
+    public void testFib() {
+        Assertions.assertEquals(3, fib(4));
+    }
+
+    public String defangIPaddr(String address) {
+        return address.replace(".", "[.]");
+    }
+
+    @Test
+    public void testDefangIPaddr() {
+        Assertions.assertEquals("1[.]1[.]1[.]1", defangIPaddr("1.1.1.1"));
+    }
+
+    public int[] runningSum(int[] nums) {
+        for (int i = 1; i < nums.length; i++)
+            nums[i] += nums[i - 1];
+        return nums;
+    }
+
+    @Test
+    public void testRunningSum() {
+        int[] nums = { 1, 2, 3, 4 };
+        int[] expected = { 1, 3, 6, 10 };
+        Assertions.assertArrayEquals(expected, runningSum(nums));
     }
 }
