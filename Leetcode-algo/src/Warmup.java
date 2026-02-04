@@ -2,7 +2,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.function.Function;
 import java.util.function.IntFunction;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -128,5 +130,20 @@ class Warmup {
         int[] nums = { 1, 2, 3, 4 };
         int[] expected = { 1, 3, 6, 10 };
         Assertions.assertArrayEquals(expected, runningSum(nums));
+    }
+
+    public int numIdenticalPairs(int[] nums) {
+        return Arrays.stream(nums).boxed()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .values()
+                .stream().mapToInt(Long::intValue).filter(count -> count > 1)
+                .map(count -> count * (count - 1) / 2)
+                .sum();
+    }
+
+    @Test
+    public void testNumIdenticalPairs() {
+        int[] nums = { 1, 2, 3, 1, 1, 3 };
+        Assertions.assertEquals(4, numIdenticalPairs(nums));
     }
 }
