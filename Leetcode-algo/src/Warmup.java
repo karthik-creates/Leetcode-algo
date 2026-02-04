@@ -146,4 +146,37 @@ class Warmup {
         int[] nums = { 1, 2, 3, 1, 1, 3 };
         Assertions.assertEquals(4, numIdenticalPairs(nums));
     }
+
+    public int maximumWealth(int[][] accounts) {
+        return Arrays.stream(accounts).mapToInt(arr -> Arrays.stream(arr).sum()).max().getAsInt();
+    }
+
+    @Test
+    public void testMaximumWealth() {
+        int[][] accounts = { { 1, 2, 3 }, { 4, 5, 6 } };
+        Assertions.assertEquals(15, maximumWealth(accounts));
+    }
+
+    public int[] buildArray(int[] nums) {
+        return IntStream.range(0, nums.length).map(i -> nums[nums[i]]).toArray();
+    }
+
+    @Test
+    public void testBuildArray() {
+        int[] nums = { 0, 2, 1, 3 };
+        int[] expected = { 0, 1, 2, 3 };
+        Assertions.assertArrayEquals(expected, buildArray(nums));
+    }
+
+    public int[] getConcatenation(int[] nums) {
+        return Stream.of(nums, nums).flatMapToInt(Arrays::stream).toArray();
+    }
+
+    @Test
+    public void testGetConcatenation() {
+        int[] nums = { 1, 2, 3, 4 };
+        int[] expected = { 1, 2, 3, 4, 1, 2, 3, 4 };
+        Assertions.assertArrayEquals(expected, getConcatenation(nums));
+    }
+
 }
