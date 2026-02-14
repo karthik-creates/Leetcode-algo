@@ -231,4 +231,20 @@ class Warmup {
         List<Integer> expected = List.of(0, 6);
         Assertions.assertEquals(expected, findAnagrams(s, p));
     }
+
+    public boolean checkInclusion(String s1, String s2) {
+        if (s2.length() < s1.length())
+            return false;
+        Function<String, List<Integer>> stringToList = str -> str.chars().sorted().boxed().toList();
+        var pList = stringToList.apply(s1);
+        return IntStream.range(0, s2.length() - s1.length())
+                .filter(i -> stringToList.apply(s2.substring(i, i + s1.length())).equals(pList))
+                .boxed().toList().size() > 0;
+    }
+
+    @Test
+    public void testCheckInclusion() {
+        String s1 = "ab", s2 = "eidbaooo";
+        Assertions.assertTrue(checkInclusion(s1, s2));
+    }
 }
