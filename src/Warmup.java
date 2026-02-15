@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -237,7 +238,7 @@ class Warmup {
             return false;
         Function<String, List<Integer>> stringToList = str -> str.chars().sorted().boxed().toList();
         var pList = stringToList.apply(s1);
-        return IntStream.range(0, s2.length() - s1.length())
+        return IntStream.rangeClosed(0, s2.length() - s1.length())
                 .filter(i -> stringToList.apply(s2.substring(i, i + s1.length())).equals(pList))
                 .boxed().toList().size() > 0;
     }
@@ -246,5 +247,31 @@ class Warmup {
     public void testCheckInclusion() {
         String s1 = "ab", s2 = "eidbaooo";
         Assertions.assertTrue(checkInclusion(s1, s2));
+    }
+
+    public int binarySearch(int[] nums, int target) {
+        for (int start = 0, end = nums.length - 1, mid = 0; end >= start; mid = (start + end) / 2) {
+            switch (Integer.compare(nums[mid], target)) {
+                case 0:
+                    return mid;
+                case 1:
+                    end = mid - 1;
+                    break;
+                case -1:
+                    start = mid + 1;
+                    break;
+            }
+        }
+        return -1;
+    }
+
+    @Test
+    public void testBinarySearch() {
+        Assertions.assertEquals(0, binarySearch(new int[] { 5 }, 5));
+        int[] nums = { -1, 0, 3, 5, 9, 12 };
+        int target = 9;
+        Assertions.assertEquals(4, binarySearch(nums, target));
+        target = 2;
+        Assertions.assertEquals(-1, binarySearch(nums, target));
     }
 }
