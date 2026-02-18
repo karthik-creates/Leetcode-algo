@@ -274,4 +274,70 @@ class Warmup {
         target = 2;
         Assertions.assertEquals(-1, binarySearch(nums, target));
     }
+
+    public char nextGreatestLetter(char[] letters, char target) {
+        int start = 0;
+        int end = letters.length - 1;
+
+        if (target < letters[start] || target >= letters[end])
+            return letters[start];
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+            if (letters[mid] <= target)
+                start = mid + 1;
+            else
+                end = mid - 1;
+        }
+        return letters[start];
+    }
+
+    @Test
+    public void testNextGreatestLetter() {
+        char[] letters = { 'c', 'f', 'j' };
+        char target = 'a';
+        Assertions.assertEquals('c', nextGreatestLetter(letters, target));
+    }
+
+    public int singleNonDuplicate(int[] nums) {
+        int start = 0, end = nums.length - 1;
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (nums[mid] == nums[mid + 1]) {
+                if ((mid - start) % 2 == 0)
+                    start = mid + 2;
+                else
+                    end = mid - 1;
+            } else if (nums[mid] == nums[mid - 1]) {
+                if ((end - mid) % 2 == 0)
+                    end = mid - 2;
+                else
+                    start = mid + 1;
+            } else
+                return nums[mid];
+        }
+        return nums[start];
+    }
+
+    @Test
+    public void testSingleNonDuplicate() {
+        Assertions.assertEquals(2, singleNonDuplicate(new int[] { 1, 1, 2, 3, 3, 4, 4, 8, 8 }));
+    }
+
+    public int peakIndexInMountainArray(int[] arr) {
+        int start = 0, end = arr.length - 1;
+        while (start < end) {
+            int mid = start + (end - start) / 2;
+            if (arr[mid] < arr[mid + 1])
+                start = mid + 1;
+            else
+                end = mid;
+        }
+        return start;
+    }
+
+    @Test
+    public void testPeakIndexInMountainArray() {
+        int[] arr = { 0, 1, 0 };
+        Assertions.assertEquals(1, peakIndexInMountainArray(arr));
+    }
 }
