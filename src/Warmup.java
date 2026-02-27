@@ -367,4 +367,28 @@ class Warmup {
         int[] arr = { 4, 5, 6, 7, 0, 1, 2 };
         Assertions.assertEquals(4, searchInRotatedSortedArray(arr, 0));
     }
+
+    public int[] twoSum(int[] numbers, int target) {
+        for (int left = 0, right = numbers.length - 1; left < right;) {
+            switch (Integer.compare(numbers[left] + numbers[right], target)) {
+                case 0:
+                    return new int[] { left + 1, right + 1 };
+                case 1:
+                    right--;
+                    break;
+                case -1:
+                    left++;
+                    break;
+            }
+        }
+        return new int[] { -1, -1 };
+    }
+
+    @Test
+    public void testTwoSum() {
+        int[] numbers = new int[] { 2, 7, 11, 15 };
+        int target = 9;
+        Assertions.assertArrayEquals(new int[] { 1, 2 }, twoSum(numbers, target));
+    }
+
 }
