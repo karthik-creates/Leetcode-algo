@@ -47,7 +47,7 @@ class Warmup {
     }
 
     @Test
-    public void testIsPalindrome() {
+    public void testIsPalindromeNumber() {
         Assertions.assertTrue(isPalindrome(121));
         Assertions.assertFalse(isPalindrome(-121));
         Assertions.assertFalse(isPalindrome(10));
@@ -391,4 +391,56 @@ class Warmup {
         Assertions.assertArrayEquals(new int[] { 1, 2 }, twoSum(numbers, target));
     }
 
+    public void reverseString(char[] s) {
+        for (int left = 0, right = s.length - 1; left < right; left++, right--) {
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+        }
+    }
+
+    @Test
+    public void testReverseString() {
+        char[] s = { 'h', 'e', 'l', 'l', 'o' };
+        reverseString(s);
+        Assertions.assertArrayEquals(new char[] { 'o', 'l', 'l', 'e', 'h' }, s);
+    }
+
+    public boolean isPalindrome(String s) {
+        for (int left = 0, right = s.length() - 1; left < right;) {
+            if (!Character.isLetterOrDigit(s.charAt(left))) {
+                left++;
+                continue;
+            }
+            if (!Character.isLetterOrDigit(s.charAt(right))) {
+                right--;
+                continue;
+            }
+            if (Character.toLowerCase(s.charAt(left)) != Character.toLowerCase(s.charAt(right)))
+                return false;
+            left++;
+            right--;
+        }
+        return true;
+    }
+
+    @Test
+    public void testIsPalindrome() {
+        Assertions.assertTrue(isPalindrome("A man, a plan, a canal: Panama"));
+        Assertions.assertFalse(isPalindrome("race a car"));
+    }
+
+    public int removeDuplicates(int[] nums) {
+        int uniqueArrayIndex = 0;
+        for (int pointer = 1; pointer < nums.length; pointer++)
+            if (nums[pointer] != nums[uniqueArrayIndex])
+                nums[++uniqueArrayIndex] = nums[pointer];
+        return uniqueArrayIndex + 1;
+    }
+
+    @Test
+    public void testRemoveDuplicates() {
+        int[] nums = { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };
+        Assertions.assertEquals(5, removeDuplicates(nums));
+    }
 }
