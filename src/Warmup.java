@@ -443,4 +443,19 @@ class Warmup {
         int[] nums = { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 };
         Assertions.assertEquals(5, removeDuplicates(nums));
     }
+
+    public int removeElement(int[] nums, int val) {
+        int solutionArrayIndex = 0;
+        for (int pointer = 0; pointer < nums.length; pointer++)
+            if (nums[pointer] != val)
+                nums[solutionArrayIndex++] = nums[pointer];
+        return solutionArrayIndex;
+    }
+
+    @Test
+    public void testRemoveElement() {
+        int[] nums = { 0, 1, 2, 2, 3, 0, 4, 2 };
+        int val = 2;
+        Assertions.assertEquals(5, removeElement(nums, val));
+    }
 }
