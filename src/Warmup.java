@@ -481,7 +481,6 @@ class Warmup {
                     break;
             }
         }
-
     }
 
     @Test
@@ -490,4 +489,21 @@ class Warmup {
         sortColors(nums);
         Assertions.assertArrayEquals(new int[] { 0, 0, 1, 1, 2, 2 }, nums);
     }
+
+    public void moveZeroes(int[] nums) {
+        int nonZeroIndex = 0;
+        for (int pointer = 0; pointer < nums.length; pointer++)
+            if (nums[pointer] != 0)
+                nums[nonZeroIndex++] = nums[pointer];
+        while (nonZeroIndex < nums.length)
+            nums[nonZeroIndex++] = 0;
+    }
+
+    @Test
+    public void testMoveZeroes() {
+        int[] nums = { 0, 1, 0, 3, 12 };
+        moveZeroes(nums);
+        Assertions.assertArrayEquals(new int[] { 1, 3, 12, 0, 0 }, nums);
+    }
+
 }
