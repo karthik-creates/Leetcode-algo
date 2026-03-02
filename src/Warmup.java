@@ -458,4 +458,36 @@ class Warmup {
         int val = 2;
         Assertions.assertEquals(5, removeElement(nums, val));
     }
+
+    public void sortColors(int[] nums) {
+        int push2Toend = nums.length - 1, push0tofront = 0, pointer = 0, temp = 0;
+        while (pointer <= push2Toend) {
+            switch (nums[pointer]) {
+                case 0:
+                    temp = nums[pointer];
+                    nums[pointer] = nums[push0tofront];
+                    nums[push0tofront] = temp;
+                    push0tofront++;
+                    pointer++;
+                    break;
+                case 1:
+                    pointer++;
+                    break;
+                case 2:
+                    temp = nums[pointer];
+                    nums[pointer] = nums[push2Toend];
+                    nums[push2Toend] = temp;
+                    push2Toend--;
+                    break;
+            }
+        }
+
+    }
+
+    @Test
+    public void testSortColors() {
+        int[] nums = { 2, 0, 2, 1, 1, 0 };
+        sortColors(nums);
+        Assertions.assertArrayEquals(new int[] { 0, 0, 1, 1, 2, 2 }, nums);
+    }
 }
