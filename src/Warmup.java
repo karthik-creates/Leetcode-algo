@@ -506,4 +506,27 @@ class Warmup {
         Assertions.assertArrayEquals(new int[] { 1, 3, 12, 0, 0 }, nums);
     }
 
+    public int[] sortedSquares(int[] nums) {
+        int[] result = new int[nums.length];
+        for (int left = 0, right = nums.length - 1, pointer = nums.length - 1; left <= right; pointer--) {
+            int leftSquare = nums[left] * nums[left];
+            int rightSquare = nums[right] * nums[right];
+            if (leftSquare > rightSquare) {
+                result[pointer] = leftSquare;
+                left++;
+            } else {
+                result[pointer] = rightSquare;
+                right--;
+            }
+        }
+        return result;
+
+    }
+
+    @Test
+    public void testSortedSquares() {
+        int[] nums = { -4, -1, 0, 3, 10 };
+        Assertions.assertArrayEquals(new int[] { 0, 1, 9, 16, 100 }, sortedSquares(nums));
+    }
+
 }
