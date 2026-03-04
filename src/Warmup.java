@@ -529,4 +529,23 @@ class Warmup {
         Assertions.assertArrayEquals(new int[] { 0, 1, 9, 16, 100 }, sortedSquares(nums));
     }
 
+    public int maxArea(int[] height) {
+        int maxArea = 0;
+        for (int left = 0, right = height.length - 1; left < right;) {
+            int currentArea = (right - left) * Math.min(height[left], height[right]);
+            maxArea = Math.max(maxArea, currentArea);
+            if (height[left] < height[right])
+                left++;
+            else
+                right--;
+        }
+        return maxArea;
+    }
+
+    @Test
+    public void testMaxArea() {
+        int[] height = { 1, 8, 6, 2, 5, 4, 8, 3, 7 };
+        Assertions.assertEquals(49, maxArea(height));
+    }
+
 }
