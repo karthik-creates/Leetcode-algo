@@ -548,4 +548,40 @@ class Warmup {
         Assertions.assertEquals(49, maxArea(height));
     }
 
+    public List<List<Integer>> threeSum(int[] nums) {
+        Arrays.sort(nums);
+        List<List<Integer>> result = new ArrayList<>();
+        for (int i = 0; i < nums.length; i++) {
+            if (i > 0 && nums[i] == nums[i - 1])
+                continue;
+            findPair(nums, i + 1, nums.length - 1, nums[i], result);
+        }
+        return result;
+    }
+
+    private void findPair(int[] nums, int left, int right, int target, List<List<Integer>> result) {
+        while (left < right) {
+            int sum = nums[left] + nums[right];
+            if (sum == -target) {
+                result.add(Arrays.asList(nums[left], nums[right], target));
+                left++;
+                right--;
+                for (; left < right && nums[left] == nums[left - 1]; left++)
+                    ;
+                for (; left < right && nums[right] == nums[right + 1]; right--)
+                    ;
+            } else if (sum < -target)
+                left++;
+            else
+                right--;
+        }
+    }
+
+    @Test
+    public void testThreeSum() {
+        int[] nums = { -100, -70, -60, 110, 120, 130, 160 };
+        List<List<Integer>> result = threeSum(nums);
+        Assertions.assertEquals(2, result.size());
+    }
+
 }
