@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 import java.util.function.BiPredicate;
 import java.util.function.Function;
 import java.util.function.IntFunction;
@@ -584,4 +586,60 @@ class Warmup {
         Assertions.assertEquals(2, result.size());
     }
 
+    public int[] nextGreaterElement(int[] nums1, int[] nums2) {
+        int max = 0;
+        for (int num : nums2) {
+            max = Math.max(max, num);
+        }
+
+        int[] mapNextGreaterElement = new int[max + 1];
+        Arrays.fill(mapNextGreaterElement, -1);
+
+        Stack<Integer> stack = new Stack<>();
+        for (int num : nums2) {
+            while (!stack.isEmpty() && stack.peek() < num) {
+                mapNextGreaterElement[stack.pop()] = num;
+            }
+            stack.push(num);
+        }
+
+        int[] result = new int[nums1.length];
+        for (int i = 0; i < nums1.length; i++) {
+            result[i] = nums1[i] <= max ? mapNextGreaterElement[nums1[i]] : -1;
+        }
+        return result;
+    }
+
+    @Test
+    public void testNextGreaterElement() {
+        int[] nums1 = { 4, 1, 2 };
+        int[] nums2 = { 1, 3, 4, 2 };
+        Assertions.assertArrayEquals(new int[] { -1, 3, -1 }, nextGreaterElement(nums1, nums2));
+    }
+
+    public int[] nextGreaterElements(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        Arrays.fill(result, -1);
+        Stack<Integer> stack = new Stack<>();
+        // iterate twice simulate the array being placed right next to itself (this gets
+        // us the circular behavior)
+        for (int i = 0; i < n * 2; i++) {
+            while (!stack.isEmpty() && nums[stack.peek()] < nums[i % n]) {
+                result[stack.pop()] = nums[i % n];
+            }
+            // We only add indices to the stack during the first pass (i < n) so we don't
+            // return values for the "imaginary" second array
+            if (i < n) {
+                stack.push(i);
+            }
+        }
+        return result;
+    }
+
+    @Test
+    public void testNextGreaterElements() {
+        int[] nums = { 5, 4, 3, 2, 1 };
+        Assertions.assertArrayEquals(new int[] { -1, 5, 5, 5, 5 }, nextGreaterElements(nums));
+    }
 }
