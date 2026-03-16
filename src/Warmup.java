@@ -642,4 +642,25 @@ class Warmup {
         int[] nums = { 5, 4, 3, 2, 1 };
         Assertions.assertArrayEquals(new int[] { -1, 5, 5, 5, 5 }, nextGreaterElements(nums));
     }
+
+    public int[] dailyTemperatures(int[] temperatures) {
+        int n = temperatures.length;
+        int[] result = new int[n];
+        Arrays.fill(result, 0);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && temperatures[stack.peek()] < temperatures[i]) {
+                int noOfDaysToWait = i - stack.peek();
+                result[stack.pop()] = noOfDaysToWait;
+            }
+            stack.push(i);
+        }
+        return result;
+    }
+
+    @Test
+    public void testDailyTemperatures() {
+        int[] temperatures = { 73, 74, 75, 71, 69, 72, 76, 73 };
+        Assertions.assertArrayEquals(new int[] { 1, 1, 4, 2, 1, 1, 0, 0 }, dailyTemperatures(temperatures));
+    }
 }
